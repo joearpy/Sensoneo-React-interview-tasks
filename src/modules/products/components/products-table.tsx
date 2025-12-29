@@ -72,7 +72,7 @@ export function ProductsTable() {
 
   return (
     <div>
-      <div>
+      <div className="flex justify-between items-center">
         <Select
           value={activeStatus}
           onValueChange={(value) => {
@@ -93,7 +93,7 @@ export function ProductsTable() {
           </SelectContent>
         </Select>
         {pagination && (
-          <Pagination>
+          <Pagination className="justify-end">
             <PaginationContent>
               <PaginationItem>
                 <PaginationPrevious
