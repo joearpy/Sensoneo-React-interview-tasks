@@ -7,6 +7,7 @@ import { fetchUsers } from "../../api/users";
 import { Metric } from "./components/Metric";
 import { useProducts } from "../../hooks/useProducts";
 import { RecentProducts } from "./components/RecentProducts";
+import { QuickActions } from "./components/QuickActions";
 
 export function HomePage() {
   const {
@@ -94,6 +95,8 @@ export function HomePage() {
           description="Registered users"
         />
       </div>
+
+      <QuickActions />
 
       <RecentProducts />
     </div>

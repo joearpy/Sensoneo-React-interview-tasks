@@ -8,6 +8,7 @@ import {
 import { useProducts } from "../../../hooks/useProducts";
 import { Dot } from "lucide-react";
 import { formatDate } from "../../../utils/date";
+import { Separator } from "../../../components/separator";
 
 export function RecentProducts() {
   const { data: recentProductsData } = useProducts({
@@ -21,7 +22,7 @@ export function RecentProducts() {
     <Card className="mt-8">
       <CardHeader>
         <CardTitle>Recent products</CardTitle>
-        <SelectSeparator />
+        <Separator className="my-2" />
       </CardHeader>
       <CardContent>
         {recentProductsData?.data.map((product) => (
