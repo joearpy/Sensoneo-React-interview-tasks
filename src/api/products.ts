@@ -1,8 +1,21 @@
-import type { CreateProductInput, Product, ProductsResponse } from "../types";
+import type {
+  CreateProductInput,
+  Product,
+  ProductFilters,
+  ProductsResponse,
+} from "../types";
 import { API_BASE_URL } from "./config";
 
-export const fetchProducts = async (): Promise<ProductsResponse> => {
-  const res = await fetch(`${API_BASE_URL}/api/products`);
+export const fetchProducts = async (
+  filters: ProductFilters = {}
+): Promise<ProductsResponse> => {
+  const params = new URLSearchParams();
+
+  if (filters.active !== undefined) {
+    params.append("active", String(filters.active));
+  }
+
+  const res = await fetch(`${API_BASE_URL}/api/products?${params.toString()}`);
 
   if (!res.ok) {
     throw new Error("Failed to fetch products");

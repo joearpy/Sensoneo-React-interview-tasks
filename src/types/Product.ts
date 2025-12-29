@@ -12,9 +12,20 @@ export interface Product {
 
 export interface ProductsResponse {
   data: Product[];
-  pagination: { page: number; limit: number; total: number };
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    totalItems: number;
+    itemsPerPage: number;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+  };
   success: boolean;
-};
+}
+
+export interface ProductFilters {
+  active?: boolean;
+}
 
 export interface CreateProductInput {
   name: string;

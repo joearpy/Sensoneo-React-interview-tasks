@@ -16,12 +16,21 @@ import { fetchUsers } from "../../api/users";
 
 export function HomePage() {
   const {
-    data: productsData,
-    isLoading: isProductsLoading,
-    error: productsError,
+    data: activeProductsData,
+    isLoading: isActiveProductsLoading,
+    error: activeProductsError,
   } = useQuery<ProductsResponse, Error>({
-    queryKey: ["products"],
-    queryFn: fetchProducts,
+    queryKey: ["products", { active: true }],
+    queryFn: () => fetchProducts({ active: true }),
+  });
+
+  const {
+    data: pendingProductsData,
+    isLoading: isPendingProductsLoading,
+    error: pendingProductsError,
+  } = useQuery<ProductsResponse, Error>({
+    queryKey: ["products", { active: false }],
+    queryFn: () => fetchProducts({ active: false }),
   });
 
   const {
@@ -46,17 +55,26 @@ export function HomePage() {
 
   // console.log("users", users, isUsersLoading, usersError);
 
-  const activeProductsCount = productsData?.data.length ?? 0;
-  const pendingProductsCount =
-    productsData?.data.filter((product) => !product.active).length ?? 0;
+  const activeProductsCount = activeProductsData?.pagination.totalItems ?? 0;
+  const pendingProductsCount = pendingProductsData?.pagination.totalItems ?? 0;
   const companiesCount = companies?.length ?? 0;
   const usersCount = users?.length ?? 0;
 
-  if (isProductsLoading || isCompaniesLoading || isUsersLoading) {
+  if (
+    isActiveProductsLoading ||
+    isPendingProductsLoading ||
+    isCompaniesLoading ||
+    isUsersLoading
+  ) {
     return <div>Loading...</div>;
   }
 
-  if (productsError || companiesError || usersError) {
+  if (
+    activeProductsError ||
+    pendingProductsError ||
+    companiesError ||
+    usersError
+  ) {
     return <div>Error loading data.</div>;
   }
 
