@@ -1,13 +1,11 @@
 import { PageHeader } from "../../components/page-header";
 import { Building2, CircleDashed, Milk, Users } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import type { CompaniesResponse, UsersResponse } from "../../types";
-import { fetchCompanies } from "../../api/companies";
-import { fetchUsers } from "../../api/users";
 import { KeyMetric } from "./components/key-metric";
 import { useProducts } from "../../hooks/use-products";
 import { RecentProducts } from "./components/recent-products";
 import { QuickActions } from "./components/quick-actions";
+import { useCompanies } from "../../hooks/use-companies";
+import { useUsers } from "../../hooks/useUsers";
 
 export function HomePage() {
   const {
@@ -26,19 +24,13 @@ export function HomePage() {
     data: companies,
     isLoading: isCompaniesLoading,
     error: companiesError,
-  } = useQuery<CompaniesResponse, Error>({
-    queryKey: ["companies"],
-    queryFn: fetchCompanies,
-  });
+  } = useCompanies();
 
   const {
     data: users,
     isLoading: isUsersLoading,
     error: usersError,
-  } = useQuery<UsersResponse, Error>({
-    queryKey: ["users"],
-    queryFn: fetchUsers,
-  });
+  } = useUsers();
 
   const activeProductsCount = activeProductsData?.pagination.totalItems ?? 0;
   const pendingProductsCount = pendingProductsData?.pagination.totalItems ?? 0;
