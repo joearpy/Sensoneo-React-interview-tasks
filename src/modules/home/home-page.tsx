@@ -9,7 +9,11 @@ import {
 } from "../../components/card";
 import { Building2, CircleDashed, Milk, Users } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import type { Company, ProductsResponse, User } from "../../types";
+import type {
+  CompaniesResponse,
+  ProductsResponse,
+  UsersResponse,
+} from "../../types";
 import { fetchProducts } from "../../api/products";
 import { fetchCompanies } from "../../api/companies";
 import { fetchUsers } from "../../api/users";
@@ -37,28 +41,24 @@ export function HomePage() {
     data: companies,
     isLoading: isCompaniesLoading,
     error: companiesError,
-  } = useQuery<Company[]>({
+  } = useQuery<CompaniesResponse, Error>({
     queryKey: ["companies"],
     queryFn: fetchCompanies,
   });
-
-  // console.log("companies", companies, isCompaniesLoading, companiesError);
 
   const {
     data: users,
     isLoading: isUsersLoading,
     error: usersError,
-  } = useQuery<User[]>({
+  } = useQuery<UsersResponse, Error>({
     queryKey: ["users"],
     queryFn: fetchUsers,
   });
 
-  // console.log("users", users, isUsersLoading, usersError);
-
   const activeProductsCount = activeProductsData?.pagination.totalItems ?? 0;
   const pendingProductsCount = pendingProductsData?.pagination.totalItems ?? 0;
-  const companiesCount = companies?.length ?? 0;
-  const usersCount = users?.length ?? 0;
+  const companiesCount = companies?.total ?? 0;
+  const usersCount = users?.total ?? 0;
 
   if (
     isActiveProductsLoading ||

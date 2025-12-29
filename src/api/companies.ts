@@ -1,7 +1,7 @@
-import type { Company } from "../types";
+import type { CompaniesResponse } from "../types";
 import { API_BASE_URL } from "./config";
 
-export const fetchCompanies = async (): Promise<Company[]> => {
+export const fetchCompanies = async (): Promise<CompaniesResponse> => {
   const res = await fetch(`${API_BASE_URL}/api/companies`);
 
   if (!res.ok) {

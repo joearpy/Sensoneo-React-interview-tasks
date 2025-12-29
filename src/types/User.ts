@@ -6,3 +6,9 @@ export interface User {
   email: string;
   createdAt: string;
 }
+
+export interface UsersResponse {
+  data: User[];
+  total: number;
+  success: boolean;
+}
