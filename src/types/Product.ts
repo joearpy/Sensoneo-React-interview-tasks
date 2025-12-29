@@ -10,6 +10,12 @@ export interface Product {
   active: boolean;
 }
 
+export interface ProductsResponse {
+  data: Product[];
+  pagination: { page: number; limit: number; total: number };
+  success: boolean;
+};
+
 export interface CreateProductInput {
   name: string;
   packaging: string;

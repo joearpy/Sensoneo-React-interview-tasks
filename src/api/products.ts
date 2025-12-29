@@ -1,7 +1,7 @@
-import type { CreateProductInput, Product } from "../types";
+import type { CreateProductInput, Product, ProductsResponse } from "../types";
 import { API_BASE_URL } from "./config";
 
-export const fetchProducts = async (): Promise<Product[]> => {
+export const fetchProducts = async (): Promise<ProductsResponse> => {
   const res = await fetch(`${API_BASE_URL}/api/products`);
 
   if (!res.ok) {
