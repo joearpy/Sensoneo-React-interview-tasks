@@ -1,21 +1,12 @@
 import { PageHeader } from "../../components/page-header";
 import { Building2, CircleDashed, Milk, Users } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import type {
-  CompaniesResponse,
-  UsersResponse,
-} from "../../types";
+import type { CompaniesResponse, UsersResponse } from "../../types";
 import { fetchCompanies } from "../../api/companies";
 import { fetchUsers } from "../../api/users";
 import { Metric } from "./components/Metric";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "../../components/card";
-import { SelectSeparator } from "../../components/select";
 import { useProducts } from "../../hooks/useProducts";
+import { RecentProducts } from "./components/RecentProducts";
 
 export function HomePage() {
   const {
@@ -104,13 +95,7 @@ export function HomePage() {
         />
       </div>
 
-      <Card className="mt-8">
-        <CardHeader>
-          <CardTitle>Recent products</CardTitle>
-          <SelectSeparator />
-        </CardHeader>
-        <CardContent>{/* Recent products list would go here */}</CardContent>
-      </Card>
+      <RecentProducts />
     </div>
   );
 }

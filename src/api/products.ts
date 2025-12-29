@@ -11,9 +11,11 @@ export const fetchProducts = async (
 ): Promise<ProductsResponse> => {
   const params = new URLSearchParams();
 
-  if (filters.active !== undefined) {
-    params.append("active", String(filters.active));
-  }
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      params.append(key, String(value));
+    }
+  });
 
   const res = await fetch(`${API_BASE_URL}/api/products?${params.toString()}`);
 
