@@ -4,10 +4,10 @@ import { useQuery } from "@tanstack/react-query";
 import type { CompaniesResponse, UsersResponse } from "../../types";
 import { fetchCompanies } from "../../api/companies";
 import { fetchUsers } from "../../api/users";
-import { Metric } from "./components/Metric";
+import { KeyMetric } from "./components/key-metric";
 import { useProducts } from "../../hooks/use-products";
-import { RecentProducts } from "./components/RecentProducts";
-import { QuickActions } from "./components/QuickActions";
+import { RecentProducts } from "./components/recent-products";
+import { QuickActions } from "./components/quick-actions";
 
 export function HomePage() {
   const {
@@ -67,28 +67,28 @@ export function HomePage() {
         description="Welcome to your deposit management system. Monitor and manage your products, companies, and users."
       />
       <div className="grid grid-cols-4 gap-4">
-        <Metric
+        <KeyMetric
           title="Active products"
           icon={<Milk className="text-muted-foreground" />}
           count={activeProductsCount}
           description="Active products in system"
           isLoading={areQueriesLoading}
         />
-        <Metric
+        <KeyMetric
           title="Pending products"
           icon={<CircleDashed className="text-muted-foreground" />}
           count={pendingProductsCount}
           description="Pending products in system"
           isLoading={areQueriesLoading}
         />
-        <Metric
+        <KeyMetric
           title="Companies"
           icon={<Building2 className="text-muted-foreground" />}
           count={companiesCount}
           description="Registered companies"
           isLoading={areQueriesLoading}
         />
-        <Metric
+        <KeyMetric
           title="Users"
           icon={<Users className="text-muted-foreground" />}
           count={usersCount}

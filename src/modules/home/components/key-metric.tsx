@@ -8,7 +8,7 @@ import {
 } from "../../../components/card";
 import { Skeleton } from "../../../components/skeleton";
 
-type MetricProps = {
+type KeyMetricProps = {
   title: string;
   icon: React.ReactNode;
   count: number;
@@ -16,13 +16,13 @@ type MetricProps = {
   isLoading: boolean;
 };
 
-export function Metric({
+export function KeyMetric({
   title,
   icon,
   count,
   description,
   isLoading,
-}: MetricProps) {
+}: KeyMetricProps) {
   if (isLoading) {
     return <Skeleton className="h-36" />;
   }

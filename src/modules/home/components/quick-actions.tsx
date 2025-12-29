@@ -7,7 +7,7 @@ import {
 import { Button } from "../../../components/button";
 import { Plus } from "lucide-react";
 import { Separator } from "../../../components/separator";
-import { AddNewProductModal } from "./AddNewProductModal";
+import { AddNewProductModal } from "./add-new-product-modal";
 
 export function QuickActions() {
   return (

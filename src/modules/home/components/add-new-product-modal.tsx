@@ -9,7 +9,7 @@ import {
   AlertDialogTrigger,
 } from "../../../components/alert-dialog";
 import { Button } from "../../../components/button";
-import { useCreateProduct } from "../../../hooks/useCreateProducts";
+import { useCreateProduct } from "../../../hooks/use-create-products";
 import { Label } from "../../../components/label";
 import { Input } from "../../../components/input";
 import {
