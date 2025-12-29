@@ -1,6 +1,6 @@
 import type {
   CreateProductInput,
-  Product,
+  CreateProductResponse,
   ProductFilters,
   ProductsResponse,
 } from "../types";
@@ -28,7 +28,7 @@ export const fetchProducts = async (
 
 export const createProduct = async (
   productData: CreateProductInput
-): Promise<Product> => {
+): Promise<CreateProductResponse> => {
   const res = await fetch(`${API_BASE_URL}/api/products`, {
     method: "POST",
     headers: {
