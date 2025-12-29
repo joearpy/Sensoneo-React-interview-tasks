@@ -6,15 +6,27 @@ import {
   CardHeader,
   CardTitle,
 } from "../../../components/card";
+import { Skeleton } from "../../../components/skeleton";
 
 type MetricProps = {
   title: string;
   icon: React.ReactNode;
   count: number;
   description: string;
+  isLoading: boolean;
 };
 
-export function Metric({ title, icon, count, description }: MetricProps) {
+export function Metric({
+  title,
+  icon,
+  count,
+  description,
+  isLoading,
+}: MetricProps) {
+  if (isLoading) {
+    return <Skeleton className="h-36" />;
+  }
+
   return (
     <Card className="h-36">
       <CardHeader className="flex justify-between items-center">

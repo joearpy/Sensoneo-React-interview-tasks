@@ -39,3 +39,10 @@ export interface CreateProductInput {
   companyId: number;
   registeredById: number;
 }
+
+export interface CreateProductResponse {
+  success: boolean;
+  data: Product;
+  message: string;
+  error?: string;
+}
