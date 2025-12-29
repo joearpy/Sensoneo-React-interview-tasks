@@ -5,7 +5,7 @@ import type { CompaniesResponse, UsersResponse } from "../../types";
 import { fetchCompanies } from "../../api/companies";
 import { fetchUsers } from "../../api/users";
 import { Metric } from "./components/Metric";
-import { useProducts } from "../../hooks/useProducts";
+import { useProducts } from "../../hooks/use-products";
 import { RecentProducts } from "./components/RecentProducts";
 import { QuickActions } from "./components/QuickActions";
 

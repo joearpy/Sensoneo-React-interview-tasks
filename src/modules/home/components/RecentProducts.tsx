@@ -4,7 +4,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../../../components/card";
-import { useProducts } from "../../../hooks/useProducts";
+import { useProducts } from "../../../hooks/use-products";
 import { Dot } from "lucide-react";
 import { formatDate } from "../../../utils/date";
 import { Separator } from "../../../components/separator";
