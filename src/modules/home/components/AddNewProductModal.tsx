@@ -44,6 +44,7 @@ export function AddNewProductModal() {
       packaging: "",
       deposit: 0,
       volume: 0,
+      // Todo: Replace with actual user and company IDs
       companyId: 1,
       registeredById: 1,
     },
@@ -131,7 +132,9 @@ export function AddNewProductModal() {
           </div>
 
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel onClick={() => reset()}>
+              Cancel
+            </AlertDialogCancel>
             <Button type="submit" disabled={isPending}>
               Add
             </Button>
