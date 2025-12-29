@@ -5,7 +5,7 @@ import { useProducts } from "../../hooks/use-products";
 import { RecentProducts } from "./components/recent-products";
 import { QuickActions } from "./components/quick-actions";
 import { useCompanies } from "../../hooks/use-companies";
-import { useUsers } from "../../hooks/useUsers";
+import { useUsers } from "../../hooks/use-users";
 
 export function HomePage() {
   const {
