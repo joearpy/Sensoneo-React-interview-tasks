@@ -3,32 +3,32 @@ import { Building2, CircleDashed, Milk, Users } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import type {
   CompaniesResponse,
-  ProductsResponse,
   UsersResponse,
 } from "../../types";
-import { fetchProducts } from "../../api/products";
 import { fetchCompanies } from "../../api/companies";
 import { fetchUsers } from "../../api/users";
 import { Metric } from "./components/Metric";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../../components/card";
+import { SelectSeparator } from "../../components/select";
+import { useProducts } from "../../hooks/useProducts";
 
 export function HomePage() {
   const {
     data: activeProductsData,
     isLoading: isActiveProductsLoading,
     error: activeProductsError,
-  } = useQuery<ProductsResponse, Error>({
-    queryKey: ["products", { active: true }],
-    queryFn: () => fetchProducts({ active: true }),
-  });
+  } = useProducts({ active: true });
 
   const {
     data: pendingProductsData,
     isLoading: isPendingProductsLoading,
     error: pendingProductsError,
-  } = useQuery<ProductsResponse, Error>({
-    queryKey: ["products", { active: false }],
-    queryFn: () => fetchProducts({ active: false }),
-  });
+  } = useProducts({ active: false });
 
   const {
     data: companies,
@@ -103,6 +103,14 @@ export function HomePage() {
           description="Registered users"
         />
       </div>
+
+      <Card className="mt-8">
+        <CardHeader>
+          <CardTitle>Recent products</CardTitle>
+          <SelectSeparator />
+        </CardHeader>
+        <CardContent>{/* Recent products list would go here */}</CardContent>
+      </Card>
     </div>
   );
 }

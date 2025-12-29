@@ -25,6 +25,10 @@ export interface ProductsResponse {
 
 export interface ProductFilters {
   active?: boolean;
+  sort?: "name" | "registeredAt";
+  order?: "asc" | "desc";
+  page?: number;
+  limit?: number;
 }
 
 export interface CreateProductInput {
