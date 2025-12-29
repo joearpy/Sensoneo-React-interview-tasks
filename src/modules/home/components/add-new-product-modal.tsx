@@ -24,7 +24,7 @@ import { SelectGroup } from "@radix-ui/react-select";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { CreateProductInput } from "../../../types";
-import { createProductSchema } from "../../../schemas/createProductSchema";
+import { createProductSchema } from "../../../schemas/create-product-schema";
 import { useState } from "react";
 
 export function AddNewProductModal() {
