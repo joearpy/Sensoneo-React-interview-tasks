@@ -7,6 +7,7 @@ import {
 import { Button } from "../../../components/button";
 import { Plus } from "lucide-react";
 import { Separator } from "../../../components/separator";
+import { AddNewProductModal } from "./AddNewProductModal";
 
 export function QuickActions() {
   return (
@@ -20,10 +21,7 @@ export function QuickActions() {
           <Plus className="mr-2" />
           View all products
         </Button>
-        <Button>
-          <Plus className="mr-2" />
-          Add new product
-        </Button>
+        <AddNewProductModal />
       </CardContent>
     </Card>
   );
