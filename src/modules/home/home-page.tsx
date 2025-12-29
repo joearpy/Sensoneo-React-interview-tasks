@@ -9,13 +9,13 @@ import { useUsers } from "../../hooks/use-users";
 
 export function HomePage() {
   const {
-    data: activeProductsData,
+    data: activeProductsResponse,
     isLoading: isActiveProductsLoading,
     error: activeProductsError,
   } = useProducts({ active: true });
 
   const {
-    data: pendingProductsData,
+    data: pendingProductsResponse,
     isLoading: isPendingProductsLoading,
     error: pendingProductsError,
   } = useProducts({ active: false });
@@ -32,8 +32,10 @@ export function HomePage() {
     error: usersError,
   } = useUsers();
 
-  const activeProductsCount = activeProductsData?.pagination.totalItems ?? 0;
-  const pendingProductsCount = pendingProductsData?.pagination.totalItems ?? 0;
+  const activeProductsCount =
+    activeProductsResponse?.pagination.totalItems ?? 0;
+  const pendingProductsCount =
+    pendingProductsResponse?.pagination.totalItems ?? 0;
   const companiesCount = companies?.total ?? 0;
   const usersCount = users?.total ?? 0;
 
