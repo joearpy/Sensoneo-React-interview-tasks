@@ -28,20 +28,15 @@ import {
 import { useProducts } from "../../../hooks/use-products";
 import { formatDate } from "../../../utils/date";
 import type { ProductStatus } from "../../../types";
+import { statusMap } from "../../../utils/status-map";
 
 export function ProductsTable() {
-  const [activeStatus, setActiveStatus] = useState<ProductStatus>("all");
+  const DEFAULT_STATUS: ProductStatus = "all";
+  const [activeStatus, setActiveStatus] =
+    useState<ProductStatus>(DEFAULT_STATUS);
   const [currentPage, setCurrentPage] = useState(1);
-  const {
-    data: productsResponse,
-    error: productsError,
-  } = useProducts({
-    active:
-      activeStatus === "all"
-        ? undefined
-        : activeStatus === "active"
-          ? true
-          : false,
+  const { data: productsResponse, error: productsError } = useProducts({
+    active: statusMap[activeStatus],
     limit: 10,
     page: currentPage,
   });
