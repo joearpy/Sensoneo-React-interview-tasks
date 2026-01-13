@@ -12,20 +12,14 @@ import { Button } from "../../../components/button";
 import { useCreateProduct } from "../../../hooks/use-create-products";
 import { Label } from "../../../components/label";
 import { Input } from "../../../components/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "../../../components/select";
-import { SelectGroup } from "@radix-ui/react-select";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { CreateProductInput } from "../../../types";
 import { createProductSchema } from "../../../schemas/create-product-schema";
 import { useState } from "react";
+import { CompanySelect } from "../../../components/company-select";
+import { UserSelect } from "../../../components/user-select";
+import { PackagingSelect } from "../../../components/packaging-select";
 
 export function AddNewProductModal() {
   const { mutate, isPending } = useCreateProduct();
@@ -39,15 +33,6 @@ export function AddNewProductModal() {
     formState: { errors },
   } = useForm<CreateProductInput>({
     resolver: zodResolver(createProductSchema),
-    defaultValues: {
-      name: "",
-      packaging: "",
-      deposit: 0,
-      volume: 0,
-      // Todo: Replace with actual user and company IDs
-      companyId: 1,
-      registeredById: 1,
-    },
   });
 
   const onSubmit = (data: CreateProductInput) => {
@@ -73,7 +58,7 @@ export function AddNewProductModal() {
         </AlertDialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <div className="mb-4">
-            <Label>Name</Label>
+            <Label className="mb-3">Name</Label>
             <Input {...register("name")} placeholder="Coca Cola" />
             {errors.name && (
               <p className="text-red-500 text-sm">{errors.name.message}</p>
@@ -81,25 +66,15 @@ export function AddNewProductModal() {
           </div>
 
           <div className="mb-4">
-            <Label>Packaging</Label>
+            <Label className="mb-3">Packaging</Label>
             <Controller
               control={control}
               name="packaging"
               render={({ field }) => (
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select a packaging" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Packaging</SelectLabel>
-                      <SelectItem value="can">Can</SelectItem>
-                      <SelectItem value="glass">Glass</SelectItem>
-                      <SelectItem value="tetra">Tetra</SelectItem>
-                      <SelectItem value="pet">Pet</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                <PackagingSelect
+                  value={field.value}
+                  onChange={field.onChange}
+                />
               )}
             />
             {errors.packaging && (
@@ -108,7 +83,7 @@ export function AddNewProductModal() {
           </div>
 
           <div className="mb-4">
-            <Label>Volume (ml)</Label>
+            <Label className="mb-3">Volume (ml)</Label>
             <Input
               {...register("volume", { valueAsNumber: true })}
               placeholder="330"
@@ -120,7 +95,7 @@ export function AddNewProductModal() {
           </div>
 
           <div className="mb-4">
-            <Label>Deposit (cents)</Label>
+            <Label className="mb-3">Deposit (cents)</Label>
             <Input
               {...register("deposit", { valueAsNumber: true })}
               placeholder="25"
@@ -128,6 +103,36 @@ export function AddNewProductModal() {
             />
             {errors.deposit && (
               <p className="text-red-500 text-sm">{errors.deposit.message}</p>
+            )}
+          </div>
+
+          <div className="mb-4">
+            <Label className="mb-3">Companies</Label>
+            <Controller
+              control={control}
+              name="companyId"
+              render={({ field }) => (
+                <CompanySelect value={field.value} onChange={field.onChange} />
+              )}
+            />
+            {errors.companyId && (
+              <p className="text-red-500 text-sm">{errors.companyId.message}</p>
+            )}
+          </div>
+
+          <div className="mb-4">
+            <Label className="mb-3">Registered By</Label>
+            <Controller
+              control={control}
+              name="registeredById"
+              render={({ field }) => (
+                <UserSelect value={field.value} onChange={field.onChange} />
+              )}
+            />
+            {errors.registeredById && (
+              <p className="text-red-500 text-sm">
+                {errors.registeredById.message}
+              </p>
             )}
           </div>
 
