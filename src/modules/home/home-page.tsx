@@ -6,8 +6,9 @@ import { RecentProducts } from "./components/recent-products";
 import { QuickActions } from "./components/quick-actions";
 import { useCompanies } from "../../hooks/use-companies";
 import { useUsers } from "../../hooks/use-users";
+import { memo } from "react";
 
-export function HomePage() {
+export const HomePage = memo(function HomePage() {
   const {
     data: activeProductsResponse,
     isLoading: isActiveProductsLoading,
@@ -85,4 +86,4 @@ export function HomePage() {
       <RecentProducts />
     </div>
   );
-}
+});
