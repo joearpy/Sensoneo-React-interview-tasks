@@ -29,13 +29,18 @@ import { useProducts } from "../../../hooks/use-products";
 import { formatDate } from "../../../utils/date";
 import type { ProductStatus } from "../../../types";
 import { statusMap } from "../../../utils/status-map";
+import { Skeleton } from "../../../components/skeleton";
 
 export function ProductsTable() {
   const DEFAULT_STATUS: ProductStatus = "all";
   const [activeStatus, setActiveStatus] =
     useState<ProductStatus>(DEFAULT_STATUS);
   const [currentPage, setCurrentPage] = useState(1);
-  const { data: productsResponse, error: productsError } = useProducts({
+  const {
+    data: productsResponse,
+    error: productsError,
+    isLoading: isProductsLoading,
+  } = useProducts({
     active: statusMap[activeStatus],
     limit: 10,
     page: currentPage,
@@ -151,16 +156,39 @@ export function ProductsTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {productsResponse?.data.map((product) => (
-            <TableRow key={product.id}>
-              <TableCell>{product.name}</TableCell>
-              <TableCell>{product.packaging}</TableCell>
-              <TableCell>${product.deposit.toFixed(2)}</TableCell>
-              <TableCell>{product.volume} ml</TableCell>
-              <TableCell>{formatDate(product.registeredAt)}</TableCell>
-              <TableCell>{product.active ? "Yes" : "No"}</TableCell>
-            </TableRow>
-          ))}
+          {isProductsLoading
+            ? Array.from({ length: 5 }).map((_, idx) => (
+                <TableRow key={idx} className="animate-pulse">
+                  <TableCell>
+                    <Skeleton className="h-4 w-32 rounded" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-20 rounded" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-12 rounded" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-16 rounded" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-24 rounded" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-8 rounded" />
+                  </TableCell>
+                </TableRow>
+              ))
+            : productsResponse?.data.map((product) => (
+                <TableRow key={product.id}>
+                  <TableCell>{product.name}</TableCell>
+                  <TableCell>{product.packaging}</TableCell>
+                  <TableCell>${product.deposit.toFixed(2)}</TableCell>
+                  <TableCell>{product.volume} ml</TableCell>
+                  <TableCell>{formatDate(product.registeredAt)}</TableCell>
+                  <TableCell>{product.active ? "Yes" : "No"}</TableCell>
+                </TableRow>
+              ))}
         </TableBody>
       </Table>
     </div>
