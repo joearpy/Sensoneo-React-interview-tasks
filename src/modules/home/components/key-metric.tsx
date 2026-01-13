@@ -14,6 +14,7 @@ type KeyMetricProps = {
   count: number;
   description: string;
   isLoading: boolean;
+  hasError?: boolean;
 };
 
 export function KeyMetric({
@@ -22,6 +23,7 @@ export function KeyMetric({
   count,
   description,
   isLoading,
+  hasError,
 }: KeyMetricProps) {
   if (isLoading) {
     return <Skeleton className="h-36" />;
@@ -30,12 +32,16 @@ export function KeyMetric({
   return (
     <Card className="h-36">
       <CardHeader className="flex justify-between items-center">
-        <CardTitle className="font-semibold">{title}</CardTitle>
+        <CardTitle className="font-semibold">
+          {hasError ? "Error" : title}
+        </CardTitle>
         {icon}
       </CardHeader>
-      <CardContent className="font-bold text-2xl">{count}</CardContent>
+      <CardContent className="font-bold text-2xl">
+        {hasError ? "Error" : count}
+      </CardContent>
       <CardFooter>
-        <CardDescription>{description}</CardDescription>
+        <CardDescription>{hasError ? "Error" : description}</CardDescription>
       </CardFooter>
     </Card>
   );

@@ -39,21 +39,6 @@ export function HomePage() {
   const companiesCount = companies?.total ?? 0;
   const usersCount = users?.total ?? 0;
 
-  if (
-    activeProductsError ||
-    pendingProductsError ||
-    companiesError ||
-    usersError
-  ) {
-    return <div>Error loading data.</div>;
-  }
-
-  const areQueriesLoading =
-    isActiveProductsLoading ||
-    isPendingProductsLoading ||
-    isCompaniesLoading ||
-    isUsersLoading;
-
   return (
     <div>
       <PageHeader
@@ -66,28 +51,32 @@ export function HomePage() {
           icon={<Milk className="text-muted-foreground" />}
           count={activeProductsCount}
           description="Active products in system"
-          isLoading={areQueriesLoading}
+          isLoading={isActiveProductsLoading}
+          hasError={!!activeProductsError}
         />
         <KeyMetric
           title="Pending products"
           icon={<CircleDashed className="text-muted-foreground" />}
           count={pendingProductsCount}
           description="Pending products in system"
-          isLoading={areQueriesLoading}
+          isLoading={isPendingProductsLoading}
+          hasError={!!pendingProductsError}
         />
         <KeyMetric
           title="Companies"
           icon={<Building2 className="text-muted-foreground" />}
           count={companiesCount}
           description="Registered companies"
-          isLoading={areQueriesLoading}
+          isLoading={isCompaniesLoading}
+          hasError={!!companiesError}
         />
         <KeyMetric
           title="Users"
           icon={<Users className="text-muted-foreground" />}
           count={usersCount}
           description="Registered users"
-          isLoading={areQueriesLoading}
+          isLoading={isUsersLoading}
+          hasError={!!usersError}
         />
       </div>
 
