@@ -30,6 +30,7 @@ import { formatDate } from "../../../utils/date";
 import type { Product, ProductStatus } from "../../../types";
 import { statusMap } from "../../../utils/status-map";
 import { Skeleton } from "../../../components/skeleton";
+import { formatDeposit } from "../../../utils/deposit";
 
 export function ProductsTable() {
   const DEFAULT_STATUS: ProductStatus = "all";
@@ -118,7 +119,7 @@ export function ProductsTable() {
       <TableRow key={product.id}>
         <TableCell>{product.name}</TableCell>
         <TableCell>{product.packaging}</TableCell>
-        <TableCell>${product.deposit.toFixed(2)}</TableCell>
+        <TableCell>{formatDeposit(product.deposit)}</TableCell>
         <TableCell>{product.volume} ml</TableCell>
         <TableCell>{formatDate(product.registeredAt)}</TableCell>
         <TableCell>{product.active ? "Yes" : "No"}</TableCell>
