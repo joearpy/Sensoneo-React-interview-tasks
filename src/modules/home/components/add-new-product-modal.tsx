@@ -15,7 +15,10 @@ import { Input } from "../../../components/input";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { CreateProductInput } from "../../../types";
-import { createProductSchema } from "../../../schemas/create-product-schema";
+import {
+  createProductResponseSchema,
+  createProductSchema,
+} from "../../../schemas/create-product-schema";
 import { useState } from "react";
 import { CompanySelect } from "../../../components/company-select";
 import { UserSelect } from "../../../components/user-select";
@@ -37,9 +40,16 @@ export function AddNewProductModal() {
 
   const onSubmit = (data: CreateProductInput) => {
     mutate(data, {
-      onSuccess: () => {
-        reset();
-        setOpen(false);
+      onSuccess: (response) => {
+        try {
+          const validated = createProductResponseSchema.parse(response);
+          // ToDo: show better success message
+          console.log(validated.message);
+          reset();
+          setOpen(false);
+        } catch (e) {
+          console.error("Invalid API response:", e);
+        }
       },
     });
   };

@@ -10,3 +10,12 @@ export const createProductSchema = z.object({
 });
 
 export type CreateProductInput = z.infer<typeof createProductSchema>;
+
+export const createProductResponseSchema = z.object({
+  success: z.boolean(),
+  data: createProductSchema,
+  message: z.string(),
+  error: z.string().optional(),
+});
+
+export type CreateProductResponse = z.infer<typeof createProductResponseSchema>;
