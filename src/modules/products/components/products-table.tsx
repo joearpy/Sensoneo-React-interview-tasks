@@ -27,15 +27,21 @@ import {
 } from "../../../components/table";
 import { useProducts } from "../../../hooks/use-products";
 import { formatDate } from "../../../utils/date";
-import type { ProductStatus } from "../../../types";
+import type { Product, ProductStatus } from "../../../types";
 import { statusMap } from "../../../utils/status-map";
+import { Skeleton } from "../../../components/skeleton";
+import { formatDeposit } from "../../../utils/deposit";
 
 export function ProductsTable() {
   const DEFAULT_STATUS: ProductStatus = "all";
   const [activeStatus, setActiveStatus] =
     useState<ProductStatus>(DEFAULT_STATUS);
   const [currentPage, setCurrentPage] = useState(1);
-  const { data: productsResponse, error: productsError } = useProducts({
+  const {
+    data: productsData,
+    error: productsError,
+    isLoading: isProductsLoading,
+  } = useProducts({
     active: statusMap[activeStatus],
     limit: 10,
     page: currentPage,
@@ -43,7 +49,7 @@ export function ProductsTable() {
 
   if (productsError) return <div>Error loading products</div>;
 
-  const pagination = productsResponse?.pagination;
+  const pagination = productsData?.pagination;
 
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= (pagination?.totalPages || 1)) {
@@ -70,6 +76,57 @@ export function ProductsTable() {
     return pages;
   };
 
+  const renderSkeletonRows = (count: number) => {
+    return Array.from({ length: count }).map((_, idx) => (
+      <TableRow key={idx} className="animate-pulse">
+        <TableCell>
+          <Skeleton className="h-4 w-32 rounded" />
+        </TableCell>
+        <TableCell>
+          <Skeleton className="h-4 w-20 rounded" />
+        </TableCell>
+        <TableCell>
+          <Skeleton className="h-4 w-12 rounded" />
+        </TableCell>
+        <TableCell>
+          <Skeleton className="h-4 w-16 rounded" />
+        </TableCell>
+        <TableCell>
+          <Skeleton className="h-4 w-24 rounded" />
+        </TableCell>
+        <TableCell>
+          <Skeleton className="h-4 w-8 rounded" />
+        </TableCell>
+      </TableRow>
+    ));
+  };
+
+  const renderEmptyState = () => {
+    return (
+      <TableRow>
+        <TableCell
+          colSpan={6}
+          className="text-center py-8 text-muted-foreground"
+        >
+          No products found
+        </TableCell>
+      </TableRow>
+    );
+  };
+
+  const renderProductRow = (product: Product) => {
+    return (
+      <TableRow key={product.id}>
+        <TableCell>{product.name}</TableCell>
+        <TableCell>{product.packaging}</TableCell>
+        <TableCell>{formatDeposit(product.deposit)}</TableCell>
+        <TableCell>{product.volume} ml</TableCell>
+        <TableCell>{formatDate(product.registeredAt)}</TableCell>
+        <TableCell>{product.active ? "Yes" : "No"}</TableCell>
+      </TableRow>
+    );
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -92,52 +149,54 @@ export function ProductsTable() {
             </SelectGroup>
           </SelectContent>
         </Select>
-        {pagination && (
-          <Pagination className="justify-end">
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handlePageChange(currentPage - 1);
-                  }}
-                />
-              </PaginationItem>
+        <div className="w-[200px] flex justify-end">
+          {pagination && (
+            <Pagination className="justify-end">
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handlePageChange(currentPage - 1);
+                    }}
+                  />
+                </PaginationItem>
 
-              {getPageItems().map((item, idx) =>
-                item === "ellipsis" ? (
-                  <PaginationItem key={`ellipsis-${idx}`}>
-                    <PaginationEllipsis />
-                  </PaginationItem>
-                ) : (
-                  <PaginationItem key={item}>
-                    <PaginationLink
-                      href="#"
-                      isActive={item === currentPage}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handlePageChange(item);
-                      }}
-                    >
-                      {item}
-                    </PaginationLink>
-                  </PaginationItem>
-                )
-              )}
+                {getPageItems().map((item, idx) =>
+                  item === "ellipsis" ? (
+                    <PaginationItem key={`ellipsis-${idx}`}>
+                      <PaginationEllipsis />
+                    </PaginationItem>
+                  ) : (
+                    <PaginationItem key={item}>
+                      <PaginationLink
+                        href="#"
+                        isActive={item === currentPage}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handlePageChange(item);
+                        }}
+                      >
+                        {item}
+                      </PaginationLink>
+                    </PaginationItem>
+                  )
+                )}
 
-              <PaginationItem>
-                <PaginationNext
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handlePageChange(currentPage + 1);
-                  }}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        )}
+                <PaginationItem>
+                  <PaginationNext
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handlePageChange(currentPage + 1);
+                    }}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          )}
+        </div>
       </div>
       <Table>
         <TableHeader>
@@ -151,16 +210,13 @@ export function ProductsTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {productsResponse?.data.map((product) => (
-            <TableRow key={product.id}>
-              <TableCell>{product.name}</TableCell>
-              <TableCell>{product.packaging}</TableCell>
-              <TableCell>${product.deposit.toFixed(2)}</TableCell>
-              <TableCell>{product.volume} ml</TableCell>
-              <TableCell>{formatDate(product.registeredAt)}</TableCell>
-              <TableCell>{product.active ? "Yes" : "No"}</TableCell>
-            </TableRow>
-          ))}
+          {isProductsLoading && renderSkeletonRows(5)}
+          {!isProductsLoading &&
+            (productsData?.data?.length ?? 0) === 0 &&
+            renderEmptyState()}
+          {!isProductsLoading &&
+            (productsData?.data?.length ?? 0) > 0 &&
+            productsData?.data?.map(renderProductRow)}
         </TableBody>
       </Table>
     </div>
